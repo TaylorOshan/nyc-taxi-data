@@ -56,22 +56,7 @@ CREATE TABLE yellow_tripdata_staging (
   total_amount varchar
 );
 
-CREATE TABLE uber_trips_staging (
-  id serial primary key,
-  pickup_datetime timestamp without time zone,
-  pickup_latitude numeric,
-  pickup_longitude numeric,
-  base_code varchar
-);
 
-CREATE TABLE uber_trips_2015 (
-  id serial primary key,
-  dispatching_base_num varchar,
-  pickup_datetime timestamp without time zone,
-  affiliated_base_num varchar,
-  location_id integer,
-  nyct2010_ntacode varchar
-);
 
 CREATE TABLE taxi_zone_lookups (
   location_id integer primary key,
@@ -81,21 +66,8 @@ CREATE TABLE taxi_zone_lookups (
   nyct2010_ntacode varchar
 );
 
-CREATE TABLE fhv_trips (
-  id serial primary key,
-  dispatching_base_num varchar,
-  pickup_datetime timestamp without time zone,
-  location_id integer
-);
 
-CREATE TABLE fhv_bases (
-  base_number varchar primary key,
-  base_name varchar,
-  dba varchar,
-  dba_category varchar
-);
 
-CREATE INDEX index_fhv_bases_on_dba_category ON fhv_bases (dba_category);
 
 CREATE TABLE cab_types (
   id serial primary key,
@@ -104,7 +76,6 @@ CREATE TABLE cab_types (
 
 INSERT INTO cab_types (type) SELECT 'yellow';
 INSERT INTO cab_types (type) SELECT 'green';
-INSERT INTO cab_types (type) SELECT 'uber';
 
 CREATE TABLE trips (
   id serial primary key,
@@ -136,17 +107,3 @@ CREATE TABLE trips (
 
 SELECT AddGeometryColumn('trips', 'pickup', 4326, 'POINT', 2);
 SELECT AddGeometryColumn('trips', 'dropoff', 4326, 'POINT', 2);
-
-CREATE TABLE central_park_weather_observations (
-  station_id varchar,
-  station_name varchar,
-  date date,
-  precipitation numeric,
-  snow_depth numeric,
-  snowfall numeric,
-  max_temperature numeric,
-  min_temperature numeric,
-  average_wind_speed numeric
-);
-
-CREATE UNIQUE INDEX index_weather_observations ON central_park_weather_observations (date);
