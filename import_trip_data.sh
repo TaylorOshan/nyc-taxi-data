@@ -30,9 +30,9 @@ for filename in data/green*.csv; do
   fi
 
   echo "`date`: beginning load for ${filename}"
-  sed $'s/\r$//' $filename | sed '/^$/d' | psql nyc-taxi-data -c "COPY green_tripdata_staging ${schema} FROM stdin CSV HEADER;"
+  sed $'s/\r$//' $filename | sed '/^$/d' | psql nyc_taxi_data -c "COPY green_tripdata_staging ${schema} FROM stdin CSV HEADER;"
   echo "`date`: finished raw load for ${filename}"
-  psql nyc-taxi-data -f populate_green_trips.sql
+  psql nyc_taxi_data -f populate_green_trips.sql
   echo "`date`: loaded trips for ${filename}"
 done;
 
@@ -48,8 +48,8 @@ for filename in data/yellow*.csv; do
   fi
 
   echo "`date`: beginning load for ${filename}"
-  sed $'s/\r$//' $filename | sed '/^$/d' | psql nyc-taxi-data -c "COPY yellow_tripdata_staging ${schema} FROM stdin CSV HEADER;"
+  sed $'s/\r$//' $filename | sed '/^$/d' | psql nyc_taxi_data -c "COPY yellow_tripdata_staging ${schema} FROM stdin CSV HEADER;"
   echo "`date`: finished raw load for ${filename}"
-  psql nyc-taxi-data -f populate_yellow_trips.sql
+  psql nyc_taxi_data -f populate_yellow_trips.sql
   echo "`date`: loaded trips for ${filename}"
 done;
